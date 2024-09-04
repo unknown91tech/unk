@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@prisma/extension-accelerate": "^1.1.0",
+    "@unknown_9190002/common-meduim": "^1.0.0",
     "hono": "^4.5.10"
   },
   "devDependencies": {
