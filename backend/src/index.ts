@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
-import { PrismaClient } from '@prisma/client/edge'
-import { withAccelerate } from '@prisma/extension-accelerate'
 import { decode , sign , verify } from 'hono/jwt'
-import { use } from 'hono/jsx'
+import { userRouter } from './routes/user'
+import { blogRouter } from './routes/blog'
+
 
 const app = new Hono<{
   Bindings:{
@@ -11,48 +11,45 @@ const app = new Hono<{
   }
 }>()
 
-
-app.post('/api/v1/signup',async (c) => {
-    const prisma = new PrismaClient({
-      datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate())
-  
-  const body = await c.req.json();
-
-  const user = await prisma.user.create({
-    data:{
-      email: body.email,
-      password: body.password,
-    },
-  })
-
-  const secret = c.env.SECRET;
-  const token = await sign({id: user.id, email: user.email , password: user.password}, secret);
+app.route("/api/v1/user", userRouter);
+app.route("/api/v1/blog", blogRouter);
 
 
-  return c.json({
-    jwt:  token
-  })
+// app.use('*' , async (c,next) => {
+
+//   const prisma = new PrismaClient({
+//     datasources: {
+//       db: {
+//         url: c.env.DATABASE_URL
+//       }
+//     }
+//   }).$extends(withAccelerate())
+
+//   c.set('prisma' , prisma)
+//   await next()
+// })
+
+app.use('api/v1/blog/*' ,  async (c,next) => {
+
+  // get the header
+  // verfiy the header
+  // if the header is corret , we need to proceed ,
+  // if not then give staus of 403 and json with error
+
+  const header =  c.req.header("authorization") || "";
+  const token = header.split(" ")[1];
+  const respone = await verify(token , c.env.SECRET)
+
+  if(respone.id){
+    await next()
+  }
+  else{
+    c.status(403)
+    return c.json({
+      error: "unauthorized"
+    })
+  }
 })
 
-app.post('/api/v1/signin', (c) => {
-  return c.text('Hello Hono!')
-})
-
-app.post('/api/v1/blog', (c) => {
-  return c.text('Hello Hono!')
-})
-
-app.put('/api/v1/blog', (c) => {
-  return c.text('Hello Hono!')
-})
-
-app.get('/api/v1/blog/:id', (c) => {
-  return c.text('Hello Hono!')
-})
-
-app.get('/api/v1/blog/bulk', (c) => {
-  return c.text('Hello Hono!')
-})
 
 export default app
