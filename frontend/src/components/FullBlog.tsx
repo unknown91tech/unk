@@ -2,7 +2,7 @@ import { BlogType } from "../hooks"
 import { Appbar } from "./Appbar"
 
 export const FullBlog = ({blog}: {blog: BlogType}) => {
-    console.log(blog)
+    console.log(blog.id)
     return <div>
             <Appbar/> 
         <div className="grid grid-cols-4 px-10  w-full bg-yellow-300 pt-20">

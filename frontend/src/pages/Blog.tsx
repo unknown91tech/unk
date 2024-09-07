@@ -16,6 +16,7 @@ export const Blog = () => {
         </div>
     }
     return <div>
+        {/* {console.log(blog.id)} */}
         <FullBlog blog = {blog} />
     </div>
 }
