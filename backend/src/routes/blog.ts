@@ -39,12 +39,12 @@ blogRouter.post('/',  async (c) => {
     const body = await c.req.json();
 
     const {success} = createBlogInput.safeParse(body);
-      if(!success){
+    if(!success){
         c.status(411)
         return c.json({
             message: "Imputs are not correct"
         })
-      }
+    }
 
     const authorId = c.get("userId")
 
