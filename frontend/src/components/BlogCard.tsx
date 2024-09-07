@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 export interface BlogCardTypes  {
-    authorId: number;
+    id: number;
     authorName: string;
     title: string;
     content: string;
@@ -10,7 +10,7 @@ export interface BlogCardTypes  {
 }   
 
 export const BlogCard = ({
-    authorId,
+    id,
     authorName,
     title,
     content,
@@ -18,8 +18,8 @@ export const BlogCard = ({
     
 }: BlogCardTypes) => {
     // return <div>
-        console.log(authorId)
-        return    <Link to={`/blog/${authorId}`}>
+        console.log(id)
+        return    <Link to={`/blog/${id}`}>
             <div className="p-4 pb-2 border-b border-slate-400 max-w-screen-lg cursor-pointer">
         <div className="flex">
             <div className="flex justify-center flex-col">
