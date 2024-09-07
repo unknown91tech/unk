@@ -33,7 +33,7 @@ if (!success) {
     },
   })
 
-  const token = await sign({id: user.id, email: user.email , password: user.password}, c.env.SECRET);
+  const token = await sign({id: user.id}, c.env.SECRET);
 
   return c.json({
     jwt:  token
@@ -74,7 +74,7 @@ if (!success) {
       error: "user not found"
     })
   }
-  const token = await sign({id: checker.id, email: checker.email , password: checker.password}, c.env.SECRET);
+  const token = await sign({id: checker.id}, c.env.SECRET);
 
     return c.json({
       message: "you are signed in"
