@@ -38,7 +38,7 @@ export const Auth = ({type}: {type : "signup" | "signin" }) => {
                     </div>
                 </div>
                 <div className="pt-7">
-                {type === "signup" ? <LabeledInput  label ="Name" placeholder="Harkirat Singh" onChange={(e) => {
+                {type === "signup" ? <LabeledInput  label ="Name" placeholder="Username" onChange={(e) => {
                     setPostInput ({
                         ...postInput,
                         name: e.target.value
